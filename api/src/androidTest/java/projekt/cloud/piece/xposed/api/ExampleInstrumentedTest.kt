@@ -1,12 +1,11 @@
 package projekt.cloud.piece.xposed.api
 
-import androidx.test.platform.app.InstrumentationRegistry
+import android.app.Activity
+import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
+import projekt.cloud.piece.xposed.api.method.Method.Companion.method
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -15,10 +14,28 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("projekt.cloud.piece.xposed.api.test", appContext.packageName)
+    fun hookActivityOnCreate() {
+        XposedHook.hookMethod {
+            clazz = Activity::class.java
+            /**
+             * Same as `method("onCreate", Bundle::class.java)`
+             **/
+            method = "onCreate"
+            params = arrayOf(Bundle::class.java)
+            before {
+                // Before onCreate() called
+            }
+            after {
+                // After onCreate() called
+            }
+        }
     }
+    
+    @Test
+    fun callActivityFinish(activity: Activity) {
+        method("finish").call(activity)
+    }
+    
 }
