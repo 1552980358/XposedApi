@@ -40,11 +40,11 @@ class MethodWrapper: BaseFindWrapper() {
         typedParams(params, paramsObj)
     }
     
-    fun before(before: (methodHookParam: XC_MethodHook.MethodHookParam) -> Unit) = apply {
+    fun before(before: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
         this.before = before
     }
     
-    fun after(after: (methodHookParam: XC_MethodHook.MethodHookParam) -> Unit) = apply {
+    fun after(after: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
         this.after = after
     }
     

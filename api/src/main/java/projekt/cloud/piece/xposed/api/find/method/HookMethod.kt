@@ -10,10 +10,10 @@ object HookMethod {
         else -> {
             val methodHook = object: XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
-                    before?.invoke(param)
+                    MethodHookParamWrapper(before).invoke(param)
                 }
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    after?.invoke(param)
+                    MethodHookParamWrapper(after).invoke(param)
                 }
             }
             when (val params = paramsObj) {

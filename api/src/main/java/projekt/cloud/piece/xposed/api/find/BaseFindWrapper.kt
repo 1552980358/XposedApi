@@ -3,6 +3,7 @@ package projekt.cloud.piece.xposed.api.find
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import projekt.cloud.piece.xposed.api.find.method.MethodHookParamWrapper
 
 abstract class BaseFindWrapper {
     
@@ -37,7 +38,7 @@ abstract class BaseFindWrapper {
         }
     }
     
-    var before: ((XC_MethodHook.MethodHookParam) -> Unit)? = null
-    var after: ((XC_MethodHook.MethodHookParam) -> Unit)? = null
+    var before: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
+    var after: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
     
 }
