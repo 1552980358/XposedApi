@@ -48,6 +48,10 @@ abstract class BaseFindWrapper {
             after = afterBlock
         }
 
+        fun <T: BaseFindWrapper> T.replace(replaceBlock: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?) = apply {
+            replace = replaceBlock
+        }
+
     }
     
     var clazz: Class<*>? = null
@@ -59,5 +63,7 @@ abstract class BaseFindWrapper {
     var before: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
 
     var after: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
+
+    var replace: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null
     
 }
