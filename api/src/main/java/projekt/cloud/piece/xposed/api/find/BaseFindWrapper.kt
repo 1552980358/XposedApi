@@ -1,9 +1,9 @@
 package projekt.cloud.piece.xposed.api.find
 
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import projekt.cloud.piece.xposed.api.find.method.MethodHookParamWrapper
 
 abstract class BaseFindWrapper {
     
@@ -40,15 +40,15 @@ abstract class BaseFindWrapper {
             }
         }
 
-        fun <T: BaseFindWrapper> T.before(beforeBlock: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
+        fun <T: BaseFindWrapper> T.before(beforeBlock: FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
             before = beforeBlock
         }
 
-        fun <T: BaseFindWrapper> T.after(afterBlock: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
+        fun <T: BaseFindWrapper> T.after(afterBlock: FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
             after = afterBlock
         }
 
-        fun <T: BaseFindWrapper> T.replace(replaceBlock: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?) = apply {
+        fun <T: BaseFindWrapper> T.replace(replaceBlock: FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?) = apply {
             replace = replaceBlock
         }
 
@@ -63,10 +63,24 @@ abstract class BaseFindWrapper {
 
     var paramsObj: Array<Any?>? = null
     
-    var before: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
+    var before: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
 
-    var after: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
+    var after: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
 
-    var replace: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null
+    var replace: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null
+
+    internal val methodHook: XC_MethodHook
+        get() = object: XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) =
+                FindMethodParamWrapper(hook = before).invoke(param)
+            override fun afterHookedMethod(param: MethodHookParam) =
+                FindMethodParamWrapper(hook = after).invoke(param)
+        }
+
+    internal val methodReplacement: XC_MethodReplacement
+        get() = object: XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam): Any? =
+                FindMethodParamWrapper(replace = replace).invokeResult(param)
+        }
     
 }

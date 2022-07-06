@@ -1,10 +1,10 @@
-package projekt.cloud.piece.xposed.api.find.method
+package projekt.cloud.piece.xposed.api.find
 
 import de.robv.android.xposed.XC_MethodHook
 
-class MethodHookParamWrapper(private val hook: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null,
-                             private val replace: (MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null) {
-    
+class FindMethodParamWrapper(private val hook: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null,
+                             private val replace: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null) {
+
     private lateinit var methodHookParam: XC_MethodHook.MethodHookParam
     internal fun invoke(methodHookParam: XC_MethodHook.MethodHookParam) {
         this.methodHookParam = methodHookParam
@@ -15,11 +15,11 @@ class MethodHookParamWrapper(private val hook: (MethodHookParamWrapper.(XC_Metho
         this.methodHookParam = methodHookParam
         return replace?.invoke(this, methodHookParam)
     }
-    
+
     fun block() = setResult(null)
-    
+
     fun setResult(result: Any?) {
         methodHookParam.result = result
     }
-    
+
 }
