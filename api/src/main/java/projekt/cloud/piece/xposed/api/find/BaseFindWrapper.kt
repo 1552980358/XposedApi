@@ -7,9 +7,9 @@ import projekt.cloud.piece.xposed.api.find.method.MethodHookParamWrapper
 
 abstract class BaseFindWrapper {
     
-    internal companion object {
+    companion object {
 
-        fun <T: BaseFindWrapper> T.invokeBlock(block: T.() -> Unit) = apply(block)
+        internal fun <T: BaseFindWrapper> T.invokeBlock(block: T.() -> Unit) = apply(block)
 
         fun <T: BaseFindWrapper> T.clazz(clazz: Class<*>) = apply {
             this.clazz = clazz
