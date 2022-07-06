@@ -1,7 +1,10 @@
 package projekt.cloud.piece.xposed.api
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import androidx.annotation.StyleRes
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import org.junit.Test
@@ -11,6 +14,7 @@ import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.before
 import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.clazz
 import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.params
 import projekt.cloud.piece.xposed.api.find.method.CallMethod.call
+import projekt.cloud.piece.xposed.api.find.method.CallMethod.callStatic
 import projekt.cloud.piece.xposed.api.find.method.HookMethod.hook
 import projekt.cloud.piece.xposed.api.find.method.Method.method
 
@@ -28,14 +32,32 @@ class ExampleInstrumentedTest {
         method("finish").call(activity)
         // DSL-styled
         method {
-            method = "finish"
+            method = "finish"   // No param exist in the method signature
             call(activity)  // Ignore result
         }// .call(activity) to obtain result
+    }
+
+    @Test
+    fun callResolveDialogTheme(context: Context, @StyleRes style: Int) {
+        // DSL style
+        method {
+            method = "resolveDialogTheme"
+            // paramsObj = arrayOf(context, style): Same as below params()
+            params(context, style)          // Same as [callActivityFinish], not to call params() no arg required to put
+            clazz = AlertDialog::class.java
+            static()    // Mark as static
+        }.call()        // Same as `callStatic()`
+
+        // Builder style
+        method("resolveDialogTheme", context, style)
+            .clazz(AlertDialog::class.java)     // Same as `.static(AlertDialog::class.java)`
+            .static()
+            .call()
     }
     
     @Test
     fun hookActivityOnCreate(classLoader: ClassLoader?, loadPackageParam: XC_LoadPackage.LoadPackageParam?) {
-        // DSL-styled
+        // DSL style
         method {
             // With Class accessible directly
             clazz = Activity::class.java
