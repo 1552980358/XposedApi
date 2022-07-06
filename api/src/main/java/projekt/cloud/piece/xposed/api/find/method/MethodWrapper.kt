@@ -1,6 +1,5 @@
 package projekt.cloud.piece.xposed.api.find.method
 
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import projekt.cloud.piece.xposed.api.find.BaseFindWrapper
 
@@ -38,14 +37,6 @@ class MethodWrapper: BaseFindWrapper() {
     fun method(method: String, params: Array<Class<*>>, vararg paramsObj: Any) = apply {
         this.method = method
         typedParams(params, paramsObj)
-    }
-    
-    fun before(before: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
-        this.before = before
-    }
-    
-    fun after(after: MethodHookParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
-        this.after = after
     }
     
 }
