@@ -9,7 +9,7 @@ abstract class BaseFindWrapper {
 
     companion object {
 
-        internal fun <T: BaseFindWrapper> T.invokeBlock(block: T.() -> Unit) = apply(block)
+        internal fun <T: BaseFindWrapper> T.invokeBlock(block: InvokeBlock<T>) = apply(block)
 
         fun <T: BaseFindWrapper> T.clazz(clazz: Class<*>) = apply {
             this.clazz = clazz
