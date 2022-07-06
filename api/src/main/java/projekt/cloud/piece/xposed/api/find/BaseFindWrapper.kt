@@ -54,7 +54,7 @@ abstract class BaseFindWrapper {
 
     }
 
-    val `super`: BaseFindWrapper
+    internal val `super`: BaseFindWrapper
         get() = this
     
     var clazz: Class<*>? = null
