@@ -2,6 +2,7 @@ package projekt.cloud.piece.xposed.api
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.annotation.StyleRes
@@ -13,6 +14,8 @@ import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.after
 import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.before
 import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.clazz
 import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.params
+import projekt.cloud.piece.xposed.api.find.constructor.Constructor.constructor
+import projekt.cloud.piece.xposed.api.find.constructor.HookConstructor.hook
 import projekt.cloud.piece.xposed.api.find.method.CallMethod.call
 import projekt.cloud.piece.xposed.api.find.method.CallMethod.callStatic
 import projekt.cloud.piece.xposed.api.find.method.HookMethod.hook
@@ -80,6 +83,32 @@ class ExampleInstrumentedTest {
         
         // Builder-like style
         method("onCreate", Bundle::class.java)
+            .clazz(Activity::class.java)
+            .before {
+                // Before onCreate called
+            }
+            .after {
+                // After onCreate called
+            }
+            .hook()
+    }
+
+    fun hookDialogConstructor(classLoader: ClassLoader?, loadPackageParam: XC_LoadPackage.LoadPackageParam?) {
+        // DSL style
+        constructor {
+            clazz = Dialog::class.java
+            params(Context::class.java)
+            before {
+                // Before onCreate called
+            }
+            after {
+                // After onCreate called
+            }
+            hook()  // Ignore result
+        }
+
+        // Builder-like style
+        constructor("android.app.Dialog", loadPackageParam, Context::class.java)
             .before {
                 // Before onCreate called
             }
