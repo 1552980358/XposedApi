@@ -11,13 +11,15 @@ abstract class BaseFindWrapper {
 
         fun <T: BaseFindWrapper> T.invokeBlock(block: T.() -> Unit) = apply(block)
 
-        fun <T: BaseFindWrapper> T.clazz(className: String, classLoader: ClassLoader?) = apply {
-            clazz = XposedHelpers.findClass(className, classLoader)
+        fun <T: BaseFindWrapper> T.clazz(clazz: Class<*>) = apply {
+            this.clazz = clazz
         }
 
-        fun <T: BaseFindWrapper> T.clazz(className: String, loadPackageParam: XC_LoadPackage.LoadPackageParam?) = apply {
-            clazz = XposedHelpers.findClass(className, loadPackageParam?.classLoader)
-        }
+        fun <T: BaseFindWrapper> T.clazz(className: String, classLoader: ClassLoader?) =
+            clazz(XposedHelpers.findClass(className, classLoader))
+
+        fun <T: BaseFindWrapper> T.clazz(className: String, loadPackageParam: XC_LoadPackage.LoadPackageParam?) =
+            clazz(className, loadPackageParam?.classLoader)
 
         fun <T: BaseFindWrapper> T.params(vararg params: Class<*>) = apply {
             if (params.isNotEmpty()) {
