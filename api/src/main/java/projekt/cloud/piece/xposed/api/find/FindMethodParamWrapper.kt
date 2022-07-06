@@ -2,8 +2,8 @@ package projekt.cloud.piece.xposed.api.find
 
 import de.robv.android.xposed.XC_MethodHook
 
-class FindMethodParamWrapper(private val hook: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null,
-                             private val replace: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null) {
+class FindMethodParamWrapper(private val hook: MethodHookBlock? = null,
+                             private val replace: MethodReplacementBlock? = null) {
 
     private lateinit var methodHookParam: XC_MethodHook.MethodHookParam
     internal fun invoke(methodHookParam: XC_MethodHook.MethodHookParam) {

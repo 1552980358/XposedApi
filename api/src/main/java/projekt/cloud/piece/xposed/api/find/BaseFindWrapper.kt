@@ -6,7 +6,7 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 abstract class BaseFindWrapper {
-    
+
     companion object {
 
         internal fun <T: BaseFindWrapper> T.invokeBlock(block: T.() -> Unit) = apply(block)
@@ -40,15 +40,15 @@ abstract class BaseFindWrapper {
             }
         }
 
-        fun <T: BaseFindWrapper> T.before(beforeBlock: FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
+        fun <T: BaseFindWrapper> T.before(beforeBlock: MethodHookBlock) = apply {
             before = beforeBlock
         }
 
-        fun <T: BaseFindWrapper> T.after(afterBlock: FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit) = apply {
+        fun <T: BaseFindWrapper> T.after(afterBlock: MethodHookBlock) = apply {
             after = afterBlock
         }
 
-        fun <T: BaseFindWrapper> T.replace(replaceBlock: FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?) = apply {
+        fun <T: BaseFindWrapper> T.replace(replaceBlock: MethodReplacementBlock) = apply {
             replace = replaceBlock
         }
 
@@ -63,11 +63,11 @@ abstract class BaseFindWrapper {
 
     var paramsObj: Array<Any?>? = null
     
-    var before: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
+    var before: MethodHookBlock? = null
 
-    var after: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Unit)? = null
+    var after: MethodHookBlock? = null
 
-    var replace: (FindMethodParamWrapper.(XC_MethodHook.MethodHookParam) -> Any?)? = null
+    var replace: MethodReplacementBlock? = null
 
     internal val methodHook: XC_MethodHook
         get() = object: XC_MethodHook() {
