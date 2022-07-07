@@ -9,14 +9,14 @@ open class BaseClassWrapper {
 
         internal fun <T: BaseClassWrapper> T.invokeBlock(block: InvokeBlock<T>) = apply(block)
 
-        fun <T: BaseFindMethodWrapper> T.clazz(clazz: Class<*>) = apply {
+        fun <T: BaseClassWrapper> T.clazz(clazz: Class<*>) = apply {
             this.clazz = clazz
         }
 
-        fun <T: BaseFindMethodWrapper> T.clazz(className: String, classLoader: ClassLoader?) =
+        fun <T: BaseClassWrapper> T.clazz(className: String, classLoader: ClassLoader?) =
                 clazz(XposedHelpers.findClass(className, classLoader))
 
-        fun <T: BaseFindMethodWrapper> T.clazz(className: String, loadPackageParam: XC_LoadPackage.LoadPackageParam?) =
+        fun <T: BaseClassWrapper> T.clazz(className: String, loadPackageParam: XC_LoadPackage.LoadPackageParam?) =
                 clazz(className, loadPackageParam?.classLoader)
 
     }
