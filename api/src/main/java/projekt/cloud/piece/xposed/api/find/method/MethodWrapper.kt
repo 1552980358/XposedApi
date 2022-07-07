@@ -1,9 +1,9 @@
 package projekt.cloud.piece.xposed.api.find.method
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import projekt.cloud.piece.xposed.api.find.BaseFindWrapper
+import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper
 
-class MethodWrapper: BaseFindWrapper() {
+class MethodWrapper: BaseFindMethodWrapper() {
     
     var static = false
     fun static() = apply {

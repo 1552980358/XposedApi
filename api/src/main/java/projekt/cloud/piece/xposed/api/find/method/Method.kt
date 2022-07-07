@@ -1,6 +1,6 @@
 package projekt.cloud.piece.xposed.api.find.method
 
-import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.invokeBlock
+import projekt.cloud.piece.xposed.api.find.BaseClassWrapper.Companion.invokeBlock
 import projekt.cloud.piece.xposed.api.find.InvokeBlock
 
 object Method {

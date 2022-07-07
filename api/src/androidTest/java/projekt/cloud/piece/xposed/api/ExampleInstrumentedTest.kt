@@ -10,14 +10,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import org.junit.Test
 import org.junit.runner.RunWith
-import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.after
-import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.before
-import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.clazz
-import projekt.cloud.piece.xposed.api.find.BaseFindWrapper.Companion.params
+import projekt.cloud.piece.xposed.api.find.BaseClassWrapper.Companion.clazz
+import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.after
+import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.before
+import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.params
 import projekt.cloud.piece.xposed.api.find.constructor.Constructor.constructor
 import projekt.cloud.piece.xposed.api.find.constructor.HookConstructor.hook
 import projekt.cloud.piece.xposed.api.find.method.CallMethod.call
-import projekt.cloud.piece.xposed.api.find.method.CallMethod.callStatic
 import projekt.cloud.piece.xposed.api.find.method.HookMethod.hook
 import projekt.cloud.piece.xposed.api.find.method.Method.method
 
