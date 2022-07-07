@@ -5,6 +5,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.autofill.AutofillManager
 import androidx.annotation.StyleRes
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -16,6 +19,11 @@ import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.befor
 import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.params
 import projekt.cloud.piece.xposed.api.find.constructor.Constructor.constructor
 import projekt.cloud.piece.xposed.api.find.constructor.HookConstructor.hook
+import projekt.cloud.piece.xposed.api.find.field.Field.field
+import projekt.cloud.piece.xposed.api.find.field.GetField.get
+import projekt.cloud.piece.xposed.api.find.field.GetField.getExists
+import projekt.cloud.piece.xposed.api.find.field.SetField.set
+import projekt.cloud.piece.xposed.api.find.field.SetField.setExists
 import projekt.cloud.piece.xposed.api.find.method.CallMethod.call
 import projekt.cloud.piece.xposed.api.find.method.HookMethod.hook
 import projekt.cloud.piece.xposed.api.find.method.Method.method
@@ -29,7 +37,7 @@ import projekt.cloud.piece.xposed.api.find.method.Method.method
 class ExampleInstrumentedTest {
     
     @Test
-    fun callActivityFinish(activity: Activity) {
+    fun callfivityFinish(activity: Activity) {
         // A quick finish() call with xposed callMethod()
         method("finish").call(activity)
         // DSL-styled
@@ -115,6 +123,41 @@ class ExampleInstrumentedTest {
                 // After onCreate called
             }
             .hook()
+    }
+    
+    fun accessActivityMenuInflater(activity: Activity) {
+        // DSL style
+        var menuInflater: MenuInflater =
+            field<MenuInflater> {
+                clazz = Activity::class.java
+                name = "menuInflater"
+            }.get(activity)     // [] can by applied, where the same as `get(...)`
+        
+        // Builder-like style with `[]` applied
+        menuInflater =
+            field<MenuInflater>(Dialog::class.java, "menuInflater")[activity]
+        
+        // Safely nullable, prevent from crash
+        val menuInflaterNullable: MenuInflater? =
+            field<MenuInflater>(Dialog::class.java, "menuInflater")
+                .getExists(activity)
+    }
+    
+    fun setActivityAutofillManager(activity: Activity) {
+        field<AutofillManager> {
+            clazz = Activity::class.java
+            name = "mAutofillManager"
+        }.set(activity,
+            activity.getSystemService(AutofillManager::class.java)
+        )   // [] can by applied, where the same as `get(...)`
+    
+        // Builder-like style with `[]` applied
+        field<AutofillManager>(Activity::class.java, "mAutofillManager")[activity] =
+            activity.getSystemService(AutofillManager::class.java)
+    
+        // Safely nullable, prevent from crash
+        field<AutofillManager>(Activity::class.java, "mAutofillManager")
+            .setExists(activity, activity.getSystemService(AutofillManager::class.java))
     }
     
 }
