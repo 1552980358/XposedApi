@@ -5,10 +5,6 @@ import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper
 
 class MethodWrapper: BaseFindMethodWrapper() {
     
-    var static = false
-    fun static() = apply {
-        static = true
-    }
     fun static(clazz: Class<*>) = run {
         this.clazz = clazz
         static()

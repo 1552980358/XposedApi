@@ -18,6 +18,10 @@ open class BaseClassWrapper {
 
         fun <T: BaseClassWrapper> T.clazz(className: String, loadPackageParam: XC_LoadPackage.LoadPackageParam?) =
                 clazz(className, loadPackageParam?.classLoader)
+    
+        fun <T: BaseClassWrapper> T.static() = apply {
+            static = true
+        }
 
     }
 
@@ -25,5 +29,7 @@ open class BaseClassWrapper {
 
     internal open val `super`: BaseClassWrapper
         get() = this
+    
+    var static = false
 
 }
