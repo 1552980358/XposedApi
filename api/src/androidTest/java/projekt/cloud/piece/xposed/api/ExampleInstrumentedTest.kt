@@ -14,6 +14,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import org.junit.Test
 import org.junit.runner.RunWith
 import projekt.cloud.piece.xposed.api.find.BaseClassWrapper.Companion.clazz
+import projekt.cloud.piece.xposed.api.find.BaseClassWrapper.Companion.static
 import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.after
 import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.before
 import projekt.cloud.piece.xposed.api.find.BaseFindMethodWrapper.Companion.params
@@ -55,13 +56,14 @@ class ExampleInstrumentedTest {
             // paramsObj = arrayOf(context, style): Same as below params()
             params(context, style)          // Same as [callActivityFinish], not to call params() no arg required to put
             clazz = AlertDialog::class.java
+            // import projekt.cloud.piece.xposed.api.find.BaseClassWrapper.Companion.static
             static()    // Mark as static
         }.call()        // Same as `callStatic()`
 
         // Builder style
         method("resolveDialogTheme", context, style)
             .clazz(AlertDialog::class.java)     // Same as `.static(AlertDialog::class.java)`
-            .static()
+            .static()   // import projekt.cloud.piece.xposed.api.find.BaseClassWrapper.Companion.static
             .call()
     }
     
