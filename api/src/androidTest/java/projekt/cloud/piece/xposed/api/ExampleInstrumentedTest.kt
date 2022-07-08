@@ -38,7 +38,7 @@ import projekt.cloud.piece.xposed.api.find.method.Method.method
 class ExampleInstrumentedTest {
     
     @Test
-    fun callfivityFinish(activity: Activity) {
+    fun callActivityFinish(activity: Activity) {
         // A quick finish() call with xposed callMethod()
         method("finish").call(activity)
         // DSL-styled
