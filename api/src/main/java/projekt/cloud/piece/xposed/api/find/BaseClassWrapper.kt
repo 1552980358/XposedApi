@@ -7,8 +7,6 @@ open class BaseClassWrapper {
 
     companion object {
 
-        internal fun <T: BaseClassWrapper> T.invokeBlock(block: InvokeBlock<T>) = apply(block)
-
         fun <T: BaseClassWrapper> T.clazz(clazz: Class<*>) = apply {
             this.clazz = clazz
         }
