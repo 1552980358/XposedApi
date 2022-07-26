@@ -5,7 +5,7 @@ import projekt.cloud.piece.xposed.api.base.Block.invokeBlock
 import projekt.cloud.piece.xposed.api.resource.BaseResourceWrapper.Companion.id
 import projekt.cloud.piece.xposed.api.resource.BooleanBlock
 
-object Boolean {
+object BooleanResource {
 
     private val XposedEntry.booleanWrapper get() = when (val initPackageResourcesParam = initPackageResourcesParam) {
         null -> BooleanWrapper()
